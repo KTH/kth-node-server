@@ -1,0 +1,19 @@
+{
+  "name": "kth-node-server",
+  "version": "1.0.0",
+  "description": "Module for initializing an Express server in a Node.js application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KTH/kth-node-server"
+  },
+  "dependencies": {
+    "kth-node-log": "git+ssh://git@github.com:KTH/kth-node-log.git#v1.0.0",
+    "express": "^4.13.3"
+  },
+  "author": "",
+  "license": "MIT"
+}
