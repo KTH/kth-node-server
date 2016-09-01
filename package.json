@@ -11,7 +11,6 @@
     "url": "https://github.com/KTH/kth-node-server"
   },
   "dependencies": {
-    "kth-node-log": "git+ssh://git@github.com:KTH/kth-node-log.git#v1.0.0",
     "express": "^4.13.3"
   },
   "author": "",
