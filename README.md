@@ -4,13 +4,15 @@ A wrapper around express.
 In it's most basic usage, it just exposes an express app, but it has support for starting with ssl.
 
 ## Simple usage, starts a server on http
+```
 const app = require('kth-node-server')
 app.start()
-
+```
 ## Start with options
+```
 const app = require('kth-node-server')
 app.start(options)
-
+```
 ### options:
 | Option        | Default       | Description  |
 | ------------- |:-------------:| ------------:|
