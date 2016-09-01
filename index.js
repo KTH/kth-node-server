@@ -6,53 +6,59 @@ var server = express()
 var path = require('path')
 var httpServer = require('https')
 
-let config, initCallback, log
-
 /**
  * Initialize the server. Performed before startup.
  */
-function _init () {
-  initCallback()
-}
 
 /**
  * Start the server.
  */
 var myHttpServer = null
-function _start () {
-  if (config.full.useSsl) {
+function start (options) {
+  options = options || {}
+  let {logging, certPath, useSsl, passphrase, pfx, cert, port} = options
+
+  // Set default params
+  const log = logging || {
+    info(msg) {
+      console.log(msg)
+    },
+    debug(msg) {
+      console.log(msg)
+    },
+    trace(msg) {
+      console.log(msg)
+    }
+  }
+
+  port = port || 3000
+
+  if (useSsl) {
     var options
 
-    if (config.full.ssl.passphrase && config.full.ssl.pfx) {
-      var password = fs.readFileSync(config.full.ssl.passphrase) + ''
+    if (passphrase && pfx) {
+      var password = fs.readFileSync(passphrase) + ''
       password = password.trim()
-      log.info('Setting key for HTTPS(pfx): ' + config.full.ssl.pfx)
+      log.info('Setting key for HTTPS(pfx): ' + pfx)
       options = {
-        pfx: fs.readFileSync(config.full.ssl.pfx),
+        pfx: fs.readFileSync(pfx),
         passphrase: password
       }
     } else {
       options = {
-        key: fs.readFileSync(config.full.ssl.key),
-        cert: fs.readFileSync(config.full.ssl.cert),
-        ca: fs.readFileSync(config.full.ssl.ca)
+        key: fs.readFileSync(key),
+        cert: fs.readFileSync(cert),
+        ca: fs.readFileSync(ca)
       }
-      log.info('Setting key for HTTPS(cert): ' + config.full.ssl.cert)
+      log.info('Setting key for HTTPS(cert): ' + cert)
     }
 
-    log.info('Secure(HTTPS) server started, listening at ' + config.full.port)
-    myHttpServer = httpServer.createServer(options, server).listen(config.full.port)
+    log.info('Secure(HTTPS) server started, listening at ' + port)
+    myHttpServer = httpServer.createServer(options, server).listen(port)
   } else {
-    log.info('Server started, listening at ' + config.full.port)
-    server.listen(config.full.port)
+    log.info('Server started, listening at ' + port)
+    server.listen(port)
   }
-
-  /**
-   * Close event of the server
-   */
-  server.on('close', function () {
-    log.info('Server received close event')
-  })
 
   /**
    * Closing the server
@@ -69,7 +75,7 @@ function _start () {
     }
   }
 
-// close down gracefully on sigterm, sighup and sigint
+  // close down gracefully on sigterm, sighup and sigint
   process.on('SIGTERM', function () {
     serverClose('SIGTERM')
   })
@@ -99,6 +105,7 @@ function _start () {
   serverStartedPromise.then(function () {
     server.emit('event:serverStarted', 'true')
   })
+  return Promise.resolve()
 }
 
 /**
@@ -121,21 +128,5 @@ function createEventPromise (eventName) {
   )
 }
 
-/**
- * Expose the server and start and init methods.
- */
 module.exports = server
-module.exports.init = _init
-module.exports.start = _start
-
-module.exports.setConfig = function (_conf) {
-  config = _conf
-}
-
-module.exports.setInitCallback = function (_cb) {
-  initCallback = _cb
-}
-
-module.exports.setLog = function (_log) {
-  log = _log
-}
+module.exports.start = start
