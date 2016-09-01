@@ -16,7 +16,7 @@ var httpServer = require('https')
 var myHttpServer = null
 function start (options) {
   options = options || {}
-  let {logging, certPath, useSsl, passphrase, pfx, cert, port} = options
+  let {logging, useSsl, passphrase, pfx, cert, port} = options
 
   // Set default params
   const log = logging || {
