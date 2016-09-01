@@ -8,6 +8,14 @@ In it's most basic usage, it just exposes an express app, but it has support for
 const app = require('kth-node-server')
 app.start()
 ```
+
+app is an express instance, so you can add middleware and functions just as in a normal express app:
+```
+app.get('/', function (req, res) {
+  res.send('Hello world!')
+})
+```
+
 ## Start with options
 ```
 const app = require('kth-node-server')
