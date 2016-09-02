@@ -1,6 +1,6 @@
 {
   "name": "kth-node-server",
-  "version": "2.0.3-beta",
+  "version": "2.0.4-beta",
   "description": "Module for initializing an Express server in a Node.js application.",
   "main": "index.js",
   "scripts": {
