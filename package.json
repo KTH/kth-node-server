@@ -1,6 +1,6 @@
 {
   "name": "kth-node-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Module for initializing an Express server in a Node.js application.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "https://github.com/KTH/kth-node-server"
   },
   "dependencies": {
-    "kth-node-log": "git+ssh://git@github.com:KTH/kth-node-log.git#v1.0.0",
+    "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.0",
     "express": "^4.13.3"
   },
   "author": "",
