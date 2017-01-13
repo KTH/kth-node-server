@@ -3,7 +3,6 @@
 var fs = require('fs')
 var express = require('express')
 var server = express()
-var path = require('path')
 var httpServer = require('https')
 
 /**
@@ -14,19 +13,17 @@ var httpServer = require('https')
  * Start the server.
  */
 var myHttpServer = null
-function start (options) {
-  options = options || {}
-  let {logging, useSsl, passphrase, pfx, cert, port} = options
-
+function start (params = {}) {
+  let {logging, useSsl, passphrase, pfx, cert, port, key, ca} = params
   // Set default params
   const log = logging || {
-    info(msg) {
+    info (msg) {
       console.log(msg)
     },
-    debug(msg) {
+    debug (msg) {
       console.log(msg)
     },
-    trace(msg) {
+    trace (msg) {
       console.log(msg)
     }
   }
@@ -34,7 +31,7 @@ function start (options) {
   port = port || 3000
 
   if (useSsl) {
-    var options
+    let options
 
     if (passphrase && pfx) {
       var password = fs.readFileSync(passphrase) + ''
