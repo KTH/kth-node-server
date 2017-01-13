@@ -3,7 +3,7 @@
 var fs = require('fs')
 var express = require('express')
 var server = express()
-var httpServer = require('https')
+var htts = require('https')
 
 /**
  * Initialize the server. Performed before startup.
@@ -51,7 +51,7 @@ function start (params = {}) {
     }
 
     log.info('Secure(HTTPS) server started, listening at ' + port)
-    myHttpServer = httpServer.createServer(options, server).listen(port)
+    myHttpServer = htts.createServer(options, server).listen(port)
   } else {
     log.info('Server started, listening at ' + port)
     server.listen(port)
