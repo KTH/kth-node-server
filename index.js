@@ -3,8 +3,8 @@
 var fs = require('fs')
 var express = require('express')
 var server = express()
-var path = require('path')
 var httpServer = require('https')
+var assert = require('assert')
 
 /**
  * Initialize the server. Performed before startup.
@@ -16,17 +16,37 @@ var httpServer = require('https')
 var myHttpServer = null
 function start (options) {
   options = options || {}
-  let {logging, useSsl, passphrase, pfx, cert, port} = options
+  let {logging, useSsl, passphrase, key, ca, pfx, cert, port} = options
+
+  if (useSsl) {
+    assert(cert, 'Missing cert required for SSL')
+
+    if (!passphrase && !key) {
+      assert(false, 'Missing key or passphrase required for SSL')
+    }
+
+    if (passphrase) {
+      assert(pfx, 'Missing pfx required for SSL with passphrase')
+    }
+
+    if (key) {
+      assert(ca, 'Missing ca required for SSL with key')
+    }
+  }
+
+  if (cert) {
+    assert(useSsl, 'You are passing a cert but not enabling SSL')
+  }
 
   // Set default params
   const log = logging || {
-    info(msg) {
+    info (msg) {
       console.log(msg)
     },
-    debug(msg) {
+    debug (msg) {
       console.log(msg)
     },
-    trace(msg) {
+    trace (msg) {
       console.log(msg)
     }
   }
@@ -34,8 +54,6 @@ function start (options) {
   port = port || 3000
 
   if (useSsl) {
-    var options
-
     if (passphrase && pfx) {
       var password = fs.readFileSync(passphrase) + ''
       password = password.trim()
