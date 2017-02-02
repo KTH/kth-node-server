@@ -3,7 +3,8 @@
 var fs = require('fs')
 var express = require('express')
 var server = express()
-var htts = require('https')
+var httpServer = require('https')
+var assert = require('assert')
 
 /**
  * Initialize the server. Performed before startup.
@@ -14,7 +15,29 @@ var htts = require('https')
  */
 var myHttpServer = null
 function start (params = {}) {
-  let {logging, useSsl, passphrase, pfx, cert, port, key, ca} = params
+  options = options || {}
+  let {logging, useSsl, passphrase, key, ca, pfx, cert, port} = params
+
+  if (useSsl) {
+    assert(cert, 'Missing cert required for SSL')
+
+    if (!passphrase && !key) {
+      assert(false, 'Missing key or passphrase required for SSL')
+    }
+
+    if (passphrase) {
+      assert(pfx, 'Missing pfx required for SSL with passphrase')
+    }
+
+    if (key) {
+      assert(ca, 'Missing ca required for SSL with key')
+    }
+  }
+
+  if (cert) {
+    assert(useSsl, 'You are passing a cert but not enabling SSL')
+  }
+
   // Set default params
   const log = logging || {
     info (msg) {
