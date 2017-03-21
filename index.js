@@ -3,7 +3,7 @@
 var fs = require('fs')
 var express = require('express')
 var server = express()
-var httpServer = require('https')
+var httpsServer = require('https')
 var assert = require('assert')
 
 /**
@@ -15,7 +15,6 @@ var assert = require('assert')
  */
 var myHttpServer = null
 function start (params = {}) {
-  options = options || {}
   let {logging, useSsl, passphrase, key, ca, pfx, cert, port} = params
 
   if (useSsl) {
@@ -74,7 +73,7 @@ function start (params = {}) {
     }
 
     log.info('Secure(HTTPS) server started, listening at ' + port)
-    myHttpServer = htts.createServer(options, server).listen(port)
+    myHttpServer = httpsServer.createServer(options, server).listen(port)
   } else {
     log.info('Server started, listening at ' + port)
     server.listen(port)
