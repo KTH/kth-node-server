@@ -107,44 +107,7 @@ function start (params = {}) {
     serverClose('SIGINT')
   })
 
-  /**
-   * A list of promises which listen to different
-   * events in the application which need to resolved
-   * until the server is fully started.
-   *
-   * By adding a new promise in the list below the
-   * <code>serverStartedPromise</code> will wait
-   * for that promise (and the rest of the promises
-   * in the array) to resolve.
-   */
-  var serverStartedPromise = Promise.all([
-    createEventPromise('event:strategyInitialized')
-  ])
-
-  serverStartedPromise.then(function () {
-    server.emit('event:serverStarted', 'true')
-  })
   return Promise.resolve()
-}
-
-/**
- * Create an Promise which listen for a event.
- *
- * @param eventName - for the event that the promise will listen for
- * @returns {Promise} A Promise which will resolve when the event fires
- */
-function createEventPromise (eventName) {
-  return new Promise(
-    function (resolve, reject) {
-      server.on(eventName, function (initialized) {
-        if (initialized) {
-          resolve()
-        } else {
-          reject()
-        }
-      })
-    }
-  )
 }
 
 module.exports = server
