@@ -33,7 +33,6 @@ function serverClose (signal, done) {
   }
 }
 
-
 function start (params = {}) {
   let {logger, useSsl, passphrase, key, ca, pfx, cert, port} = params
 
@@ -71,6 +70,7 @@ function start (params = {}) {
 
   port = port || 3000
 
+  var httpServer
   if (useSsl) {
     let options
 
@@ -91,9 +91,9 @@ function start (params = {}) {
       _logger.info('Setting key for HTTPS(cert): ' + cert)
     }
 
-    var httpServer = httpsServer.createServer(options, server).listen(port)
+    httpServer = httpsServer.createServer(options, server).listen(port)
   } else {
-    var httpServer = server
+    httpServer = server
   }
 
   // close down gracefully on sigterm, sighup and sigint
@@ -109,7 +109,7 @@ function start (params = {}) {
     serverClose('SIGINT')
   })
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       _httpServer = httpServer.listen(port, () => {
         if (useSsl) {
@@ -130,7 +130,7 @@ module.exports = server
 // .start and .close returns a promise
 module.exports.start = start
 module.exports.close = function () {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       serverClose('SIGHUP', () => {
         resolve()

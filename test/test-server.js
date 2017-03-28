@@ -2,27 +2,27 @@
 'use strict'
 const expect = require('chai').expect
 const request = require('request')
+const path = require('path')
 
 const server = require('../index')
 
 // Accept self signed SSL cert
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 server.use('/test', function (req, res, next) {
-    // console.log('======= GET')
-    return res.status(200).json({
-        status: 'ok'
-    })
+  // console.log('======= GET')
+  return res.status(200).json({
+    status: 'ok'
+  })
 })
 
 const logger = {
   info: () => {},
   trace: () => {},
-  debug: () => {},
+  debug: () => {}
 }
 
 describe('HTTP Server', function () {
-
   before((done) => {
     server.start({
       port: 9090,
@@ -34,17 +34,18 @@ describe('HTTP Server', function () {
   })
 
   after((done) => {
-      server.close().then(() => {
-        done()
-      })
+    server.close().then(() => {
+      done()
+    })
   })
 
   it('can start the server', (done) => {
     request.get({
       url: 'http://localhost:9090/test'
     }, (err, resp, body) => {
+      expect(err).to.equal(null)
+
       const jsonBody = JSON.parse(body)
-      // console.log('------------', jsonBody)
       expect(jsonBody.status).to.equal('ok')
       done()
     })
@@ -52,13 +53,12 @@ describe('HTTP Server', function () {
 })
 
 describe('Secure HTTPS Server with .pfx and passphrase', function () {
-
   before((done) => {
     server.start({
       port: 9090,
       useSsl: true,
-      pfx: __dirname + '/certs/withpassphrase.pfx',
-      passphrase: __dirname + '/certs/passphrase.txt',
+      pfx: path.join(__dirname, 'certs/withpassphrase.pfx'),
+      passphrase: path.join(__dirname, 'certs/passphrase.txt'),
       logger
     }).then((res) => {
       done()
@@ -75,8 +75,9 @@ describe('Secure HTTPS Server with .pfx and passphrase', function () {
     request.get({
       url: 'https://localhost:9090/test'
     }, (err, resp, body) => {
+      expect(err).to.equal(null)
+
       const jsonBody = JSON.parse(body)
-      // console.log('------------', jsonBody)
       expect(jsonBody.status).to.equal('ok')
       done()
     })
