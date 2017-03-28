@@ -51,23 +51,22 @@ function start (params = {}) {
   }
 
   if (useSsl) {
-    // assert(cert, 'Missing cert required for SSL')
-
-    if (!passphrase && !key) {
-      assert(false, 'Missing key or passphrase required for SSL')
+    if (!pfx && !cert) {
+      assert(false, 'Missing pfx or cert required for SSL')
     }
 
-    if (passphrase) {
-      assert(pfx, 'Missing pfx required for SSL with passphrase')
+    if (pfx) {
+      assert(passphrase, 'When using pfx we also require a passphrase. Should be path to file')
     }
 
-    /*if (key) {
-      assert(ca, 'Missing ca required for SSL with key')
-    }*/
+    if (cert) {
+      assert(ca, 'Missing ca required for SSL with cert. Should be path to file')
+      assert(key, 'Missing key required for SSL with cert. Should be path to file')
+    }
   }
 
-  if (cert) {
-    assert(useSsl, 'You are passing a cert but not enabling SSL')
+  if (cert || pfx) {
+    assert(useSsl, 'You are passing a cert or pfx but not enabling SSL')
   }
 
   port = port || 3000
@@ -75,7 +74,7 @@ function start (params = {}) {
   if (useSsl) {
     let options
 
-    if (passphrase && pfx) {
+    if (pfx) {
       var password = fs.readFileSync(passphrase) + ''
       password = password.trim()
       _logger.info('Setting key for HTTPS(pfx): ' + pfx)
