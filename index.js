@@ -13,32 +13,32 @@ var assert = require('assert')
 /**
  * Start the server.
  */
-var myHttpServer = null
+var _httpServer = null
+var _logger
+/**
+ * Closing the server
+ * @param signal the log message depending on the given signal.
+ */
+function serverClose (signal, done) {
+  _logger.info('Process received ' + signal + ', exiting ....')
+  if (done === undefined) {
+    done = function () {
+      process.exit(0)
+    }
+  }
+  if (_httpServer) {
+    _httpServer.close(done)
+  } else {
+    done()
+  }
+}
+
+
 function start (params = {}) {
-  let {logging, useSsl, passphrase, key, ca, pfx, cert, port} = params
-
-  if (useSsl) {
-    assert(cert, 'Missing cert required for SSL')
-
-    if (!passphrase && !key) {
-      assert(false, 'Missing key or passphrase required for SSL')
-    }
-
-    if (passphrase) {
-      assert(pfx, 'Missing pfx required for SSL with passphrase')
-    }
-
-    if (key) {
-      assert(ca, 'Missing ca required for SSL with key')
-    }
-  }
-
-  if (cert) {
-    assert(useSsl, 'You are passing a cert but not enabling SSL')
-  }
+  let {logger, useSsl, passphrase, key, ca, pfx, cert, port} = params
 
   // Set default params
-  const log = logging || {
+  _logger = logger || {
     info (msg) {
       console.log(msg)
     },
@@ -50,6 +50,26 @@ function start (params = {}) {
     }
   }
 
+  if (useSsl) {
+    // assert(cert, 'Missing cert required for SSL')
+
+    if (!passphrase && !key) {
+      assert(false, 'Missing key or passphrase required for SSL')
+    }
+
+    if (passphrase) {
+      assert(pfx, 'Missing pfx required for SSL with passphrase')
+    }
+
+    /*if (key) {
+      assert(ca, 'Missing ca required for SSL with key')
+    }*/
+  }
+
+  if (cert) {
+    assert(useSsl, 'You are passing a cert but not enabling SSL')
+  }
+
   port = port || 3000
 
   if (useSsl) {
@@ -58,7 +78,7 @@ function start (params = {}) {
     if (passphrase && pfx) {
       var password = fs.readFileSync(passphrase) + ''
       password = password.trim()
-      log.info('Setting key for HTTPS(pfx): ' + pfx)
+      _logger.info('Setting key for HTTPS(pfx): ' + pfx)
       options = {
         pfx: fs.readFileSync(pfx),
         passphrase: password
@@ -69,29 +89,12 @@ function start (params = {}) {
         cert: fs.readFileSync(cert),
         ca: fs.readFileSync(ca)
       }
-      log.info('Setting key for HTTPS(cert): ' + cert)
+      _logger.info('Setting key for HTTPS(cert): ' + cert)
     }
 
-    log.info('Secure(HTTPS) server started, listening at ' + port)
-    myHttpServer = httpsServer.createServer(options, server).listen(port)
+    var httpServer = httpsServer.createServer(options, server).listen(port)
   } else {
-    log.info('Server started, listening at ' + port)
-    server.listen(port)
-  }
-
-  /**
-   * Closing the server
-   * @param signal the log message depending on the given signal.
-   */
-  function serverClose (signal) {
-    log.info('Process received ' + signal + ', exiting ....')
-    if (myHttpServer) {
-      myHttpServer.close(function () {
-        process.exit(0)
-      })
-    } else {
-      process.exit(0)
-    }
+    var httpServer = server
   }
 
   // close down gracefully on sigterm, sighup and sigint
@@ -107,8 +110,34 @@ function start (params = {}) {
     serverClose('SIGINT')
   })
 
-  return Promise.resolve()
+  return new Promise(function(resolve, reject) {
+    try {
+      _httpServer = httpServer.listen(port, () => {
+        if (useSsl) {
+          _logger.info('Secure(HTTPS) server started, listening at ' + port)
+        } else {
+          _logger.info('Server started, listening at ' + port)
+        }
+        resolve(module.exports)
+      })
+    } catch (e) {
+      reject(e)
+    }
+  })
 }
 
 module.exports = server
+
+// .start and .close returns a promise
 module.exports.start = start
+module.exports.close = function () {
+  return new Promise(function(resolve, reject) {
+    try {
+      serverClose('SIGHUP', () => {
+        resolve()
+      })
+    } catch (e) {
+      reject(e)
+    }
+  })
+}

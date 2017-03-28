@@ -3,8 +3,12 @@
   "version": "3.0.3",
   "description": "Module for initializing an Express server in a Node.js application.",
   "main": "index.js",
+  "engines": {
+    "node": "6.9.1"
+  },
   "scripts": {
     "test": "node_modules/mocha/bin/mocha test/**/test-*.js",
+    "test-debug": "node_modules/mocha/bin/mocha --debug-brk test/**/test-*.js",
     "preversion": "standard && npm run test",
     "postversion": "git push && git push --tags"
   },
@@ -18,7 +22,10 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "dotenv": "2.0.0",
+    "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
     "mocha": "^3.2.0",
+    "pem": "^1.9.4",
+    "request": "^2.81.0",
     "standard": "7.1.0"
   },
   "author": "",
