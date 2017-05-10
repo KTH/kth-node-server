@@ -3,9 +3,6 @@
   "version": "3.0.4",
   "description": "Module for initializing an Express server in a Node.js application.",
   "main": "index.js",
-  "engines": {
-    "node": "6.9.1"
-  },
   "scripts": {
     "test": "node_modules/mocha/bin/mocha test/**/test-*.js",
     "test-debug": "node_modules/mocha/bin/mocha --debug-brk test/**/test-*.js",
