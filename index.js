@@ -67,10 +67,9 @@ function start (params = {}) {
   }
 
   port = port || 3000
+  let options
 
   if (useSsl) {
-    let options
-
     if (pfx) {
       var password = fs.readFileSync(passphrase) + ''
       password = password.trim()
