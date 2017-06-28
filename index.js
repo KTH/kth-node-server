@@ -1,20 +1,15 @@
 'use strict'
 
-var fs = require('fs')
-var express = require('express')
-var server = express()
-var httpsServer = require('https')
-var assert = require('assert')
+const fs = require('fs')
+const express = require('express')
+const app = express()
+const assert = require('assert')
 
 /**
  * Initialize the server. Performed before startup.
  */
-
-/**
- * Start the server.
- */
-var _httpServer = null
-var _logger
+let server
+let _logger
 /**
  * Closing the server
  * @param signal the log message depending on the given signal.
@@ -26,8 +21,8 @@ function serverClose (signal, done) {
       process.exit(0)
     }
   }
-  if (_httpServer) {
-    _httpServer.close(done)
+  if (server) {
+    server.close(done)
   } else {
     done()
   }
@@ -46,6 +41,9 @@ function start (params = {}) {
     },
     trace (msg) {
       console.log(msg)
+    },
+    error (msg) {
+      console.error(msg)
     }
   }
 
@@ -70,7 +68,6 @@ function start (params = {}) {
 
   port = port || 3000
 
-  var httpServer
   if (useSsl) {
     let options
 
@@ -90,45 +87,30 @@ function start (params = {}) {
       }
       _logger.info('Setting key for HTTPS(cert): ' + cert)
     }
-
-    httpServer = httpsServer.createServer(options, server).listen(port)
-  } else {
-    httpServer = server
   }
 
-  // close down gracefully on sigterm, sighup and sigint
-  process.on('SIGTERM', function () {
-    serverClose('SIGTERM')
-  })
+  if (useSsl) {
+    _logger.info('using Secure(HTTPS) server')
+    server = require('https').createServer(options, app)
+  } else {
+    server = require('http').createServer(app)
+    _logger.info('using http')
+  }
 
-  process.on('SIGHUP', function () {
-    serverClose('SIGHUP')
-  })
-
-  process.on('SIGINT', function () {
-    serverClose('SIGINT')
-  })
-
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     try {
-      _httpServer = httpServer.listen(port, () => {
-        if (useSsl) {
-          _logger.info('Secure(HTTPS) server started, listening at ' + port)
-        } else {
-          _logger.info('Server started, listening at ' + port)
-        }
-        resolve(module.exports)
-      })
+      server.listen(port, resolve)
     } catch (e) {
       reject(e)
     }
   })
 }
 
-module.exports = server
+module.exports = app
 
 // .start and .close returns a promise
 module.exports.start = start
+
 module.exports.close = function () {
   return new Promise(function (resolve, reject) {
     try {
