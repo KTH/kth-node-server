@@ -30,13 +30,6 @@ app.close()
     // Do something...
   })
 ```
-
-The server also listens to the following signals:
-
-- SIGTERM
-- SIGHUP
-- SIGINT
-
 ## Start server with options
 
 ### Secure HTTPS
