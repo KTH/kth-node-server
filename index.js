@@ -88,17 +88,28 @@ function start (params = {}) {
     }
   }
 
+  let serverTypeMsg
   if (useSsl) {
-    _logger.info('using Secure(HTTPS) server')
+    serverTypeMsg = 'using Secure HTTPS server'
     server = require('https').createServer(options, app)
   } else {
     server = require('http').createServer(app)
-    _logger.info('using http')
+    serverTypeMsg = 'using unsecure HTTP server'
+    if (process.env.NODE_ENV === 'production') {
+      _logger.warn('>>>>>>>>>>> ' + serverTypeMsg + '<<<<<<<<<<')
+    }
   }
 
   return new Promise((resolve, reject) => {
     try {
-      server.listen(port, resolve)
+      server.listen(port, () => {
+        _logger.info('*** *************************')
+        _logger.info('*** SERVER STARTED')
+        _logger.info('*** ' + serverTypeMsg)
+        _logger.info('*** Listening on port: ' + port)
+        _logger.info('*** *************************')
+        resolve.apply(resolve, arguments)
+      })
     } catch (e) {
       reject(e)
     }
