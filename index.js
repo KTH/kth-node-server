@@ -39,6 +39,9 @@ function start (params = {}) {
     debug (msg) {
       console.log(msg)
     },
+    warn (msg) {
+      console.warn(msg)
+    },
     trace (msg) {
       console.log(msg)
     },
