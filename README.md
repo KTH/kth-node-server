@@ -1,4 +1,4 @@
-# kth-node-server
+# kth-node-server [![Build Status](https://travis-ci.org/KTH/kth-node-server.svg?branch=master)](https://travis-ci.org/KTH/kth-node-server)
 
 A wrapper around express.
 In it's most basic usage, it just exposes an express app, but it has support for starting with ssl.

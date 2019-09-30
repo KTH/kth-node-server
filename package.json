@@ -1,17 +1,24 @@
 {
   "name": "kth-node-server",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Module for initializing an Express server in a Node.js application.",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha test/**/test-*.js",
-    "test-debug": "node_modules/mocha/bin/mocha --debug-brk test/**/test-*.js",
-    "preversion": "standard && npm run test",
-    "postversion": "git push && git push --tags"
+    "test": "node_modules/mocha/bin/mocha test/**/test-*.js --exit",
+    "build": "echo 'ok'"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/KTH/kth-node-server"
+  },
+  "bugs": {
+    "url": "https://github.com/KTH/kth-node-server/issues"
+  },
+  "homepage": "https://github.com/KTH/kth-node-server#readme",
+  "author": {
+    "name": "KTH",
+    "email": "infosys@kth.se",
+    "url": "https://github.com/KTH"
   },
   "dependencies": {
     "express": "^4.13.3"
@@ -20,11 +27,10 @@
     "chai": "^3.5.0",
     "dotenv": "2.0.0",
     "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
-    "mocha": "^3.2.0",
+    "mocha": "^6.2.1",
     "pem": "^1.9.4",
     "request": "^2.81.0",
     "standard": "7.1.0"
   },
-  "author": "",
   "license": "MIT"
 }
