@@ -15,22 +15,33 @@
     "url": "https://github.com/KTH/kth-node-server/issues"
   },
   "homepage": "https://github.com/KTH/kth-node-server#readme",
+  "license": "MIT",
   "author": {
     "name": "KTH",
     "email": "infosys@kth.se",
     "url": "https://github.com/KTH"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "dotenv": "2.0.0",
-    "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
-    "mocha": "^6.2.1",
-    "pem": "^1.9.4",
-    "request": "^2.81.0",
-    "standard": "7.1.0"
+    "@kth/eslint-config-kth": "^1.0.10",
+    "chai": "^4.3.4",
+    "dotenv": "8.2.0",
+    "eslint": "^7.24.0",
+    "husky": "^6.0.0",
+    "kth-node-log": "^3.1.4",
+    "mocha": "^8.3.2",
+    "pem": "^1.14.4",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
+    "request": "^2.81.0"
   },
-  "license": "MIT"
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
 }
