@@ -2,6 +2,7 @@
   "name": "kth-node-server",
   "version": "3.1.2",
   "description": "Module for initializing an Express server in a Node.js application.",
+  "automaticPublish": "true",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha test/**/test-*.js --exit",
@@ -28,7 +29,7 @@
   "devDependencies": {
     "@kth/eslint-config-kth": "^1.0.10",
     "chai": "^4.3.4",
-    "dotenv": "9.0.2",
+    "dotenv": "^9.0.2",
     "eslint": "^7.26.0",
     "husky": "^6.0.0",
     "kth-node-log": "^3.1.5",
