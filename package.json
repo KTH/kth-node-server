@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha test/**/test-*.js --exit",
-    "build": "echo 'ok'"
+    "build": "echo 'ok'",
+    "prepare": "bash -c 'if [ -f ./node_modules/.bin/husky ]; then husky install; fi'"
   },
   "repository": {
     "type": "git",
@@ -27,13 +28,13 @@
   "devDependencies": {
     "@kth/eslint-config-kth": "^1.0.10",
     "chai": "^4.3.4",
-    "dotenv": "8.2.0",
-    "eslint": "^7.24.0",
+    "dotenv": "9.0.2",
+    "eslint": "^7.26.0",
     "husky": "^6.0.0",
-    "kth-node-log": "^3.1.4",
-    "mocha": "^8.3.2",
+    "kth-node-log": "^3.1.5",
+    "mocha": "^8.4.0",
     "pem": "^1.14.4",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0",
     "request": "^2.81.0"
   },
