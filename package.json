@@ -29,7 +29,7 @@
   "devDependencies": {
     "@kth/eslint-config-kth": "^1.0.10",
     "chai": "^4.3.4",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "eslint": "^7.26.0",
     "husky": "^6.0.0",
     "kth-node-log": "^3.1.5",
