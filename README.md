@@ -53,7 +53,7 @@ app.start(optionsForSsl)
 ### Plain HTTP
 
 ```JavaScript
-const app = require('kth-node-server')
+const app = require('@kth/server')
 
 const optionsForSsl = {
   port: 3000, // Optional, defaults to 3000
