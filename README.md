@@ -1,13 +1,14 @@
-# kth-node-server [![Build Status](https://travis-ci.org/KTH/kth-node-server.svg?branch=master)](https://travis-ci.org/KTH/kth-node-server)
+# @kth/server
 
 A wrapper around express.
 In it's most basic usage, it just exposes an express app, but it has support for starting with ssl.
 
 ## Simple usage, starts a server on http
+
 Start returns a promise that resolves when startup is complete.
 
 ```JavaScript
-const app = require('kth-node-server')
+const app = require('@kth/server')
 app.start()
   .then((res) => {
     // Do something...
@@ -30,11 +31,13 @@ app.close()
     // Do something...
   })
 ```
+
 ## Start server with options
 
 ### Secure HTTPS
+
 ```JavaScript
-const app = require('kth-node-server')
+const app = require('@kth/server')
 
 const optionsForSsl = {
   useSsl: true,
@@ -48,6 +51,7 @@ app.start(optionsForSsl)
 ```
 
 ### Plain HTTP
+
 ```JavaScript
 const app = require('kth-node-server')
 
@@ -69,5 +73,6 @@ app.start(optionsForSsl)
   $ rm test/certs/private.pem test/certs/public.pem
 ```
 
-## TODO ##
+## TODO
+
 TODO: write test for signing requests with cert
