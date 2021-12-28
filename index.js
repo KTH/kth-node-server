@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
+
 'use strict'
 
 const fs = require('fs')
 const express = require('express')
+
 const app = express()
 const assert = require('assert')
 
@@ -14,13 +17,14 @@ let _logger
  * Closing the server
  * @param signal the log message depending on the given signal.
  */
-function serverClose (signal, done) {
-  _logger.info('Process received ' + signal + ', exiting ....')
-  if (done === undefined) {
-    done = function () {
-      process.exit(0)
-    }
+function serverClose(
+  signal,
+  done = () => {
+    process.exit(0)
   }
+) {
+  _logger.info('Process received ' + signal + ', exiting ....')
+
   if (server) {
     server.close(done)
   } else {
@@ -28,26 +32,26 @@ function serverClose (signal, done) {
   }
 }
 
-function start (params = {}) {
-  let {logger, useSsl, passphrase, key, ca, pfx, cert, port} = params
+function start(params = {}) {
+  const { logger, useSsl, passphrase, key, ca, pfx, cert, port = 3000 } = params
 
   // Set default params
   _logger = logger || {
-    info (msg) {
+    info(msg) {
       console.log(msg)
     },
-    debug (msg) {
+    debug(msg) {
       console.log(msg)
     },
-    warn (msg) {
+    warn(msg) {
       console.warn(msg)
     },
-    trace (msg) {
+    trace(msg) {
       console.log(msg)
     },
-    error (msg) {
+    error(msg) {
       console.error(msg)
-    }
+    },
   }
 
   if (useSsl) {
@@ -69,23 +73,22 @@ function start (params = {}) {
     assert(useSsl, 'You are passing a cert or pfx but not enabling SSL')
   }
 
-  port = port || 3000
   let options
 
   if (useSsl) {
     if (pfx) {
-      var password = fs.readFileSync(passphrase) + ''
+      let password = fs.readFileSync(passphrase) + ''
       password = password.trim()
       _logger.info('Setting key for HTTPS(pfx): ' + pfx)
       options = {
         pfx: fs.readFileSync(pfx),
-        passphrase: password
+        passphrase: password,
       }
     } else {
       options = {
         key: fs.readFileSync(key),
         cert: fs.readFileSync(cert),
-        ca: fs.readFileSync(ca)
+        ca: fs.readFileSync(ca),
       }
       _logger.info('Setting key for HTTPS(cert): ' + cert)
     }
@@ -111,6 +114,7 @@ function start (params = {}) {
         _logger.info('*** ' + serverTypeMsg)
         _logger.info('*** Listening on port: ' + port)
         _logger.info('*** *************************')
+        // eslint-disable-next-line prefer-rest-params
         resolve.apply(resolve, arguments)
       })
     } catch (e) {
@@ -124,8 +128,8 @@ module.exports = app
 // .start and .close returns a promise
 module.exports.start = start
 
-module.exports.close = function () {
-  return new Promise(function (resolve, reject) {
+module.exports.close = function _close() {
+  return new Promise((resolve, reject) => {
     try {
       serverClose('SIGHUP', () => {
         resolve()

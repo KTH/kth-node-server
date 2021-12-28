@@ -1,11 +1,12 @@
 {
-  "name": "kth-node-server",
-  "version": "3.1.2",
+  "name": "@kth/server",
+  "version": "4.0.0",
   "description": "Module for initializing an Express server in a Node.js application.",
   "automaticPublish": "true",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha test/**/test-*.js --exit",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "echo 'ok'",
     "prepare": "bash -c 'if [ -f ./node_modules/.bin/husky ]; then husky install; fi'"
   },
@@ -24,20 +25,19 @@
     "url": "https://github.com/KTH"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.2"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^2.0.2",
     "@kth/log": "^4.0.0",
-    "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "husky": "^7.0.4",
-    "mocha": "^9.1.3",
+    "jest": "^27.4.5",
+    "node-fetch": "^2.6.6",
     "pem": "^1.14.4",
     "prettier": "^2.5.1",
-    "pretty-quick": "^3.1.2",
-    "request": "^2.81.0"
+    "pretty-quick": "^3.1.3"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -45,5 +45,12 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5"
+  },
+  "// (jest)": "configuration for jest",
+  "jest": {
+    "clearMocks": true,
+    "notifyMode": "failure-change",
+    "testEnvironment": "node",
+    "verbose": true
   }
 }
