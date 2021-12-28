@@ -5,6 +5,8 @@
   "automaticPublish": "true",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint \"**/*.js\" --quiet",
+    "lint-v": "eslint \"**/*.js\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "echo 'ok'",
