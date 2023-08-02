@@ -1,15 +1,14 @@
 {
   "name": "@kth/server",
-  "version": "4.0.0",
+  "version": "4.0.4",
   "description": "Module for initializing an Express server in a Node.js application.",
-  "automaticPublish": "true",
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"**/*.js\" --quiet",
     "lint-v": "eslint \"**/*.js\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "echo 'ok'",
+    "build": "./build.sh",
     "prepare": "if [ -f ./node_modules/.bin/husky ]; then husky install; fi"
   },
   "repository": {

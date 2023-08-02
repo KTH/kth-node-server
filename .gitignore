@@ -21,4 +21,3 @@ logs/*
 
 # Dependency directory for NPM
 node_modules
-package-lock.json
