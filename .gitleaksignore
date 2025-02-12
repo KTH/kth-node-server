@@ -1,0 +1,4 @@
+# False positive git leaks
+# The path /home/vsts/work/1/github/ is the root path of the pipeline agent
+
+/home/vsts/work/1/github/test/certs/withpassphrase.pfx:pkcs12-file:1
