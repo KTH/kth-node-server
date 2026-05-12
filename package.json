@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/KTH/kth-node-server#readme",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "author": {
     "name": "KTH",
     "email": "infosys@kth.se",
