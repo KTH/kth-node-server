@@ -4,8 +4,8 @@
   "description": "Module for initializing an Express server in a Node.js application.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"**/*.js\" --quiet",
-    "lint-v": "eslint \"**/*.js\"",
+    "lint": "eslint --quiet",
+    "lint-v": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "./build.sh",
