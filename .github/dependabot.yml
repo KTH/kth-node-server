@@ -10,8 +10,6 @@ updates:
       - dependencies
       - dependabot
     ignore:
-      - dependency-name: 'eslint'
-        versions: ['9.x']
       - dependency-name: 'node-fetch'
         versions: ['3.x']
       - dependency-name: 'express'
