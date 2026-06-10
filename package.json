@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "./build.sh",
-    "prepare": "if [ -f ./node_modules/.bin/husky ]; then husky install; fi"
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@kth/eslint-config-kth": "^4.0.0",
     "eslint": "^9.39.4",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "jest": "^30.4.2",
     "lint-staged": "^17.0.7",
     "node-fetch": "^2.7.0",
