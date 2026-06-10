@@ -10,7 +10,5 @@ updates:
       - dependencies
       - dependabot
     ignore:
-      - dependency-name: 'node-fetch'
-        versions: ['3.x']
       - dependency-name: 'express'
         versions: ['5']
