@@ -29,7 +29,7 @@
     "url": "https://github.com/KTH"
   },
   "dependencies": {
-    "express": "^4.22.2"
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^4.0.0",

@@ -9,6 +9,3 @@ updates:
     labels:
       - dependencies
       - dependabot
-    ignore:
-      - dependency-name: 'express'
-        versions: ['5']
