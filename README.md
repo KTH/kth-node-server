@@ -1,7 +1,12 @@
 # @kth/server
 
-A wrapper around express.
-In it's most basic usage, it just exposes an express app, but it has support for starting with ssl.
+A wrapper around Express.
+
+In its most basic usage, it exposes an Express app, but it also supports starting with SSL.
+
+## Requirements
+
+- Node.js `>=24`
 
 ## Simple usage, starts a server on http
 
@@ -15,7 +20,7 @@ app.start()
   })
 ```
 
-The import returns an Express.js instance, so you can add middleware and functions just as in a normal express app:
+The import returns an Express.js instance, so you can add middleware and functions just as in a normal Express app:
 
 ```JavaScript
 app.get('/', function (req, res) {
@@ -63,16 +68,12 @@ const optionsForSsl = {
 app.start(optionsForSsl)
 ```
 
-## Creating a self signed cert for testing
+## Creating a self-signed cert for testing
 
 ```
   $ openssl genrsa 2048 > test/certs/private.pem
-  $ openssl req -x509 -days 1000 -new -key test/certs/private.pem -out test/certs/public.pem -subj "/C=SE/ST=SWEDEN/L=Provo/O=kth-node-server/CN=www.test.com"
+  $ openssl req -x509 -days 1000 -new -key test/certs/private.pem -out test/certs/public.pem -subj "/C=SE/ST=SWEDEN/L=Stockholm/O=kth-node-server/CN=www.test.com"
   $ openssl pkcs12 -export -in test/certs/public.pem -inkey test/certs/private.pem -passout pass:test -out test/certs/withpassphrase.pfx
   $ echo 'test' >> test/certs/passphrase.txt
   $ rm test/certs/private.pem test/certs/public.pem
 ```
-
-## TODO
-
-TODO: write test for signing requests with cert
