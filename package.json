@@ -32,12 +32,12 @@
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "@kth/eslint-config-kth": "^4.0.0",
+    "@kth/eslint-config-kth": "^4.1.0",
     "eslint": "^9.39.4",
     "husky": "^9.1.7",
     "jest": "^30.4.2",
-    "lint-staged": "^17.0.7",
-    "prettier": "^3.8.4"
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.9.4"
   },
   "prettier": {
     "arrowParens": "avoid",
