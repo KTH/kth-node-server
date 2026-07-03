@@ -1,7 +1,6 @@
 'use strict'
 
 const path = require('path')
-const fetch = require('node-fetch')
 const https = require('https')
 const server = require('./index')
 
@@ -20,6 +19,29 @@ server.use('/test', (req, res, next) =>
     status: 'ok',
   })
 )
+
+function httpsGetJson(url) {
+  return new Promise((resolve, reject) => {
+    // Allow self-signed certificates for testing purposes
+    const req = https.get(url, { rejectUnauthorized: false }, res => {
+      let body = ''
+
+      res.on('data', chunk => {
+        body += chunk
+      })
+
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(body))
+        } catch (error) {
+          reject(error)
+        }
+      })
+    })
+
+    req.on('error', reject)
+  })
+}
 
 describe('HTTP Server', () => {
   afterAll(() => jest.resetAllMocks())
@@ -52,12 +74,7 @@ describe('HTTP Server', () => {
       logger,
     })
 
-    const agent = new https.Agent({
-      rejectUnauthorized: false,
-    })
-
-    const res = await fetch('https://localhost:9090/test', { agent })
-    const json = await res.json()
+    const json = await httpsGetJson('https://localhost:9090/test')
     expect(json).not.toBeUndefined()
     expect(json.status).toBe('ok')
   })
